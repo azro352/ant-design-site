@@ -20,9 +20,16 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Download
+      - name: Install python requirements
+        run: |
+          pip install -r requirements.txt
+
+      - name: Clone ant design
         run: |
           git clone https://github.com/ant-design/ant-design.git
+
+      - name: Download images
+        run: |
           python ant_design_dl_img.py
 
       - name: Save images
