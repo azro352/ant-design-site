@@ -36,9 +36,13 @@ jobs:
         run: |
           cd ant-design
           git checkout gh-pages
-          bash 
+          grep -HEorn "https.*huamei.*img/.{32}" components/ | cut -f1 -d: >> files_to_sed
+          grep -HEorn "https.*cRK" ./ | cut -f1 -d: >> files_to_sed
+          cat files_to_sed | xargs -iZ seds.sh Z
           cd ..
 
+      - name: Save site
+        uses: actions/upload-artifact@v3
         with:
           name: antd-site
           path: |
