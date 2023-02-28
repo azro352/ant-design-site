@@ -1,0 +1,45 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.11" ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Download
+        run: |
+          git clone https://github.com/ant-design/ant-design.git
+          python ant_design_dl_img.py
+
+      - name: Save images
+        uses: actions/upload-artifact@v3
+        with:
+          name: images
+          path: |
+            antd_images
+
+      - name: Apply on compiled antd site
+        run: |
+          cd ant-design
+          git checkout gh-pages
+          bash 
+          cd ..
+
+        with:
+          name: antd-site
+          path: |
+            ant-design
