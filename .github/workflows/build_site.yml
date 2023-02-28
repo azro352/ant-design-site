@@ -31,6 +31,7 @@ jobs:
       - name: Download images
         run: |
           python ant_design_dl_img.py ant-design/components
+          chmod +x seds.sh
 
       - name: Zip images
         run: |
