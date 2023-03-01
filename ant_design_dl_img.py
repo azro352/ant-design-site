@@ -48,6 +48,7 @@ def main():
     dl("https://gw.alipayobjects.com/zos/antfincdn/Z5c7kzvi30/expand.svg", "expand.svg")
     dl("https://gw.alipayobjects.com/zos/antfincdn/4zAaozCvUH/unexpand.svg", "unexpand.svg")
     dl("https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg", "logo.svg")
+    dl("https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png", "logo2.png")
 
     out.joinpath("mappings.json").write_text(json.dumps(mappings, indent=4))
 
@@ -55,7 +56,7 @@ def main():
 
     Path("seds.sh").write_text(
         "#!/usr/bin/env bash\n\n" +
-        '\n'.join(f"sed -i 's^{k.replace('*', repl)}^{v}^g' $1" for k, v in mappings.items())
+        '\n'.join(f"sed -i 's^{k.replace('*', repl)}^/{v}^g' $1" for k, v in mappings.items())
     )
 
 
