@@ -6,8 +6,6 @@ git clone https://github.com/ant-design/ant-design.git
 python ant_design_dl_img.py ant-design/components
 chmod +x seds.sh
 
-# zip -r antd_images.zip antd_images/
-
 cd ant-design
 git checkout gh-pages
 
@@ -20,6 +18,12 @@ cat files_to_sed | xargs -iZ ../seds.sh Z
 
 cd ..
 
-zip -r ant-design-site.zip ant-design/
+cp antd_images/images/* ant-design/
+
+zip_name="ant_design_site_$(date "+%H%M%S_%d%m%Y").zip"
+
+echo "Save as $zip_name"
+
+zip -r $zip_name ant-design/
 
 rm -rf ant-design

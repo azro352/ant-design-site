@@ -1,0 +1,64 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ ]
+  pull_request:
+    branches: [ ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.11" ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install python requirements
+        run: |
+          pip install -r requirements.txt
+
+      - name: Clone ant design
+        run: |
+          git clone https://github.com/ant-design/ant-design.git
+
+      - name: Download images
+        run: |
+          python ant_design_dl_img.py ant-design/components
+          chmod +x seds.sh
+
+      - name: Zip images
+        run: |
+          zip -r antd_images.zip antd_images/
+
+      - name: Save images
+        uses: actions/upload-artifact@v3
+        with:
+          name: images.zip
+          path: |
+            antd_images.zip
+            seds.sh
+
+      - name: Apply on compiled antd site
+        run: |
+          cd ant-design
+          git checkout gh-pages
+          grep -HEorna "https.*huamei.*img/.{32}" components/ | cut -f1 -d: >> files_to_sed
+          grep -HEorna "https.*cRK" ./ | cut -f1 -d: >> files_to_sed
+          echo "Len files_to_sed $(wc -l files_to_sed)"
+          cat files_to_sed | xargs -iZ ../seds.sh Z
+          cd ..
+          zip -r ant-design-site.zip ant-design/
+
+      - name: Save site
+        uses: actions/upload-artifact@v3
+        with:
+          name: ant-design-site.zip
+          path: |
+            ant-design-site.zip

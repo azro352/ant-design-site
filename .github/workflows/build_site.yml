@@ -24,40 +24,13 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Clone ant design
+      - name: Do all
         run: |
-          git clone https://github.com/ant-design/ant-design.git
-
-      - name: Download images
-        run: |
-          python ant_design_dl_img.py ant-design/components
-          chmod +x seds.sh
-
-      - name: Zip images
-        run: |
-          zip -r antd_images.zip antd_images/
-
-      - name: Save images
-        uses: actions/upload-artifact@v3
-        with:
-          name: images.zip
-          path: |
-            antd_images.zip
-
-      - name: Apply on compiled antd site
-        run: |
-          cd ant-design
-          git checkout gh-pages
-          grep -HEorna "https.*huamei.*img/.{32}" components/ | cut -f1 -d: >> files_to_sed
-          grep -HEorna "https.*cRK" ./ | cut -f1 -d: >> files_to_sed
-          echo "Len files_to_sed $(wc -l files_to_sed)"
-          cat files_to_sed | xargs -iZ ../seds.sh Z
-          cd ..
-          zip -r ant-design-site.zip ant-design/
+          ./build.sh
 
       - name: Save site
         uses: actions/upload-artifact@v3
         with:
           name: ant-design-site.zip
           path: |
-            ant-design-site.zip
+            ant_design_site*.zip
