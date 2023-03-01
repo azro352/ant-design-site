@@ -26,6 +26,7 @@ jobs:
 
       - name: Do all
         run: |
+          chmod +x build.sh
           ./build.sh
 
       - name: Save site
