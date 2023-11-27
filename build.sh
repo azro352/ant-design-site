@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2164
 
+if ! [ -x "$(command -v git)" ]; then
+  echo 'Error: git is not installed.' >&2
+  exit 1
+fi
+
 git clone https://github.com/ant-design/ant-design.git
 
 python ant_design_dl_img.py ant-design/components
