@@ -26,7 +26,11 @@ echo "$(date "+%H:%M:%S"): END DL IMAGES"
 echo "Len files_to_sed $(wc -l files_to_sed)"
 
 echo "$(date "+%H:%M:%S"): START SED PATHS"
+grep -HEorna "huamei_7[a-zA-Z0-9/_-]+img" components | wc -l
+grep -HEorna "huamei_7[a-zA-Z0-9/_-]+img" components | head
 cat files_to_sed | xargs -iZ ../seds.sh Z
+grep -HEorna "huamei_7[a-zA-Z0-9/_-]+img" components | wc -l
+grep -HEorna "huamei_7[a-zA-Z0-9/_-]+img" components | head
 echo "$(date "+%H:%M:%S"): END SED PATHS"
 
 rm -rf .git
@@ -42,3 +46,13 @@ echo "Save as $zip_name"
 zip -r $zip_name ant-design/
 
 rm -rf ant-design
+
+
+
+
+
+
+
+
+
+
