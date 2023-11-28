@@ -27,10 +27,10 @@ echo "Len files_to_sed $(wc -l files_to_sed)"
 
 echo "$(date "+%H:%M:%S"): START SED PATHS"
 grep -HEorna "huamei_7[a-zA-Z0-9/_-]+img" components | wc -l
-grep -HEorna "huamei_7[a-zA-Z0-9/_-]+img" components | head
+grep -HEorna "huamei_7[a-zA-Z0-9/_-]+img.{24}" components | head
 cat files_to_sed | xargs -iZ ../seds.sh Z
 grep -HEorna "huamei_7[a-zA-Z0-9/_-]+img" components | wc -l
-grep -HEorna "huamei_7[a-zA-Z0-9/_-]+img" components | head
+grep -HEorna "huamei_7[a-zA-Z0-9/_-]+img.{24}" components | head
 echo "$(date "+%H:%M:%S"): END SED PATHS"
 
 rm -rf .git
