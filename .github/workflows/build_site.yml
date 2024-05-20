@@ -29,9 +29,16 @@ jobs:
           chmod +x build.sh
           ./build.sh
 
-      - name: Save site
-        uses: actions/upload-artifact@v3
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
           name: ant-design-site.zip
-          path: |
+          files: |
             ant_design_site*.zip
+          
+      # - name: Save site
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ant-design-site.zip
+      #     path: |
+      #       ant_design_site*.zip
